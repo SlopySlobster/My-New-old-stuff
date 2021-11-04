@@ -1,11 +1,15 @@
 #include<iostream>
 #include<algorithm>
 using namespace std;
+
+//global variables (Usualy bad)
+
+string Items[10];
+
 int main() {
 
-	string Items[10];
 	
-
+	//local variables
 	int room = 1;
 	string input;
 
@@ -75,7 +79,36 @@ int main() {
 			}
 			else
 				cout << "You can't go there" << endl;
+			break;
+		case 7:
+			cout << " " << endl;
+			cin >> input;
+			if (input == "N")
+				room = 6;
 
+			else if (input == "W")
+				room = 8;
+			else
+				cout << "You can't go there " << endl;
+			break;
+		case 8:
+			cout << " " << endl;
+			cin >> input;
+			if (input == "E")
+				room = 7;
+			else if (input == "W")
+				room = 9;
+			else
+				cout << "You can't go there " << endl;
+			break;
+		case 9:
+			if (input == "E")
+				room = 8;
+			if (input.compare("pick up") == 0)
+				Items[0] = " Wing key ";
+			else 
+				cout << "You can't go there " << endl;
+			break;
 		}
 	
 	
