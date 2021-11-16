@@ -5,6 +5,8 @@ using namespace std;
 //global variables (Usualy bad)
 void shop();
 string Items[10];
+int turns = 0;
+
 
 int main() {
 
@@ -16,6 +18,9 @@ int main() {
 	cout << " You are wake up in a cofen in a huge church. You see the doors open and you see a silowet behind a closed gate in the distance walking away, you have to get out! " << endl << endl;
 
 	do {
+		if (input == "Items" || "items")
+			for (int i = 0; i < 5; i++)
+				cout << Items[i] << endl;
 		switch (room) {
 		case 1:
 			cout << " You look around the church. it's dusty, like it's abandond fo years. The benches are very worn down and looks like it will break if you try to sit on them. seems like the only way out is to the north. " << endl;
@@ -128,18 +133,21 @@ void shop() {
 	string input;
 	do {
 		cout << " Hoi I'm Tem, welcom to the tem shop " << endl;
-		cout << " press c to buy cheap trash, t for trash, and e for expensive trash " << endl;
+		cout << " press c to buy cheap trash ($1), t for trash($12), and e for expensive trash($500) " << endl;
 		cout << " press g for gold and m for money " << endl;
 		cout << " press q for quit" << endl;
 		cin >> input;
-		if (input == "c" || "t" || "e") {
+		if (input == "c" || input == "t" || input == "e") {
 			Items[4] = "trash";
+			cout << " You got trash... for some reason " << endl;
 		}
 		else if (input == "g") {
 			Items[5] = "gold";
+			cout << " The gold is very heavy " << endl;
 		}
 		else if (input == "m") {
 			Items[6] = "money";
+			cout << " You got $10 " << endl;
 		}
 	} while (input != "q");
 }
