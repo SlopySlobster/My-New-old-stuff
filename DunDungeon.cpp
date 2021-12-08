@@ -51,11 +51,11 @@ int main() {
 				inroom = true;
 			}
 			getline(cin, input);
-			if (input.compare("go west")) {
+			if (input.compare("go west") == 0) {
 				room = 3;
 				turns -= 1;
 			}
-			else if (input.compare("go east")) {
+			else if (input.compare("go east") == 0) {
 				room = 5;
 				turns -= 1;
 			}
@@ -68,11 +68,11 @@ int main() {
 		case 3:
 			cout << " The graves on the west side seem to be mostly intact, you see that the people who died are from the 18th century; meaning that the church is old. You can go south or can go back west to the entrance. " << endl;
 			getline(cin, input);
-			if (input.compare("go east")) {
+			if (input.compare("go east") == 0) {
 				room = 2;
 				turns -= 1;
 			}
-			else if (input.compare("go south")) {
+			else if (input.compare("go south") == 0) {
 				room = 4;
 				turns -= 1;
 			}
@@ -85,7 +85,7 @@ int main() {
 		case 4:
 			cout << " There is a huge pile of rubble in the middle of the road preventing you from continuing. You can go back north " << endl;
 			getline(cin, input);
-			if (input.compare("go north")) {
+			if (input.compare("go north") == 0) {
 				room = 3;
 				turns -= 1;
 			}
@@ -100,11 +100,11 @@ int main() {
 		case 5:
 			cout << " The graves on the east side are very worn out, you can't tell what they say other than the date '1917'. you can go south or go back west. " << endl;
 			getline(cin, input);
-			if (input.compare("go west")) {
+			if (input.compare("go west") == 0) {
 				room = 2;
 				turns -= 1;
 			}
-			else if (input.compare("go south")) {
+			else if (input.compare("go south") == 0) {
 				room = 6;
 				turns -= 1;
 			}
@@ -117,11 +117,11 @@ int main() {
 		case 6:
 			cout << " there is a small gate preventing you from going to the other side, looks like you need a key " << endl;
 			cin >> input;
-			if (input.compare("go north")) {
+			if (input.compare("go north") == 0) {
 				room = 5;
 				turns -= 1;
 			}
-			if (input.compare("go south")) {
+			if (input.compare("go south") == 0) {
 				if (Items[0].compare("key") != 0)
 					cout << " You tried to break open the door but it won't buge. You need a key " << endl;
 
@@ -138,12 +138,12 @@ int main() {
 		case 7:
 			cout << " This side of the gate had a small garden. You see that most of the plants are dead and spoiled but you notice that a small potato is still edible. You can go back north or go west. " << endl;
 			getline(cin, input);
-			if (input.compare("go north")) {
+			if (input.compare("go north") == 0) {
 				room = 6;
 				turns -= 1;
 			}
 
-			else if (input.compare("go west")) {
+			else if (input.compare("go west") == 0) {
 				room = 8;
 				turns -= 1;
 			}
@@ -156,11 +156,11 @@ int main() {
 		case 8:
 			cout << " This part of the path is baron, there is nothing here. You can go west or east " << endl;
 			getline(cin, input);
-			if (input.compare("go east")) {
+			if (input.compare("go east") == 0) {
 				room = 7;
 				turns -= 1;
 			}
-			else if (input.compare("go west")) {
+			else if (input.compare("go west") == 0) {
 				room = 9;
 				turns -= 1;
 			}
@@ -176,7 +176,7 @@ int main() {
 			cout << " 'But I feel a bit lonely and bored so You'll have to answer something first. If you answer me incorrect; this incinerator will seal you fate' " << endl;
 			cout << " 'My question is: What side of the grave is younger? The left or right?' " << endl;
 
-			if (input.compare("go east")) {
+			if (input.compare("go east") == 0) {
 				room = 8;
 				turns -= 1;
 			}
