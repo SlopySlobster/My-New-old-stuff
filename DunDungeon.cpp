@@ -6,7 +6,8 @@ using namespace std;
 //global variables (Usualy bad)
 
 string Items[5];
-int turns = 20;
+int turns = 15;
+int Health = 1;
 
 
 int main() {
@@ -19,9 +20,9 @@ int main() {
 	bool inroom = false;
 	string invent = input;
 	cout << " You wake up in a cofen in a huge church. You see the doors open and you see a silhouette behind a closed gate in the distance walking away, you have to get out! " << endl << endl;
+	cout << " As you get up you start feeling very hungry. You better get out quicly before you starve " << endl;
 
 	do {
-		//turns -= 1;
 		cout << "You have " << turns << " turns left " << endl;
 
 		if (invent == "Items" || "items")
@@ -36,7 +37,7 @@ int main() {
 				turns -= 1;
 			}
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory." << endl;
+				cout << "Entering inventory." << endl;
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -60,7 +61,7 @@ int main() {
 				turns -= 1;
 			}
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory." << endl;
+				cout << "Entering inventory." << endl;
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -77,7 +78,7 @@ int main() {
 				turns -= 1;
 			}
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory." << endl;
+				cout << "Entering inventory." << endl;
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -92,7 +93,7 @@ int main() {
 			else if (input.compare("pick up") == 0)
 				Items[0] = "rusty key";
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory." << endl;
+				cout << "Entering inventory." << endl;
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -109,28 +110,29 @@ int main() {
 				turns -= 1;
 			}
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory." << endl;
+				cout << "Entering inventory." << endl;
 			}
 			else
 				cout << "You can't go there " << endl;
 			break;
 		case 6:
 			cout << " there is a small gate preventing you from going to the other side, looks like you need a key " << endl;
-			cin >> input;
+			getline(cin, input);
 			if (input.compare("go north") == 0) {
 				room = 5;
 				turns -= 1;
 			}
 			if (input.compare("go south") == 0) {
-				if (Items[0].compare("key") != 0)
-					cout << " You tried to break open the door but it won't buge. You need a key " << endl;
-
-				else
+				if (Items[0].compare("rusty key") != 0) {
+					cout << " You tried to break open the gate but it won't buge. You need a key " << endl;
+				}
+				else {
 					room = 7;
-				turns -= 1;
+					turns -= 1;
+				}
 			}
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory." << endl;
+				cout << "Entering inventory." << endl;
 			}
 			else
 				cout << "You can't go there" << endl;
@@ -138,17 +140,24 @@ int main() {
 		case 7:
 			cout << " This side of the gate had a small garden. You see that most of the plants are dead and spoiled but you notice that a small potato is still edible. You can go back north or go west. " << endl;
 			getline(cin, input);
+
 			if (input.compare("go north") == 0) {
 				room = 6;
 				turns -= 1;
 			}
+
+
+			else if (input.compare("pick up") == 0) {
+				Items[1] = "potato";
+			}
+
 
 			else if (input.compare("go west") == 0) {
 				room = 8;
 				turns -= 1;
 			}
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory." << endl;
+				cout << "Entering inventory." << endl;
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -165,7 +174,7 @@ int main() {
 				turns -= 1;
 			}
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory." << endl;
+				cout << "Entering inventory." << endl;
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -174,30 +183,49 @@ int main() {
 			cout << " You see that there is an incinerator that is turned on. Suddenly a ghost apears! " << endl;
 			cout << " He says ' You wish to get out of this place before ending like me... very well. I will give you the key out of here' " << endl;
 			cout << " 'But I feel a bit lonely and bored so You'll have to answer something first. If you answer me incorrect; this incinerator will seal you fate' " << endl;
-			cout << " 'My question is: What side of the grave is younger? The left or right?' " << endl;
+			cout << " 'My question is: What side of the grave is younger? The west or east?' " << endl;
+
+			if (Items[4].compare("Wing Key") == 0) {
+				cin >> input;
+				if (input.compare("East") || ("east") || ("east side") || ("East side")) {
+					cout << " 'Correct' says the ghost, then the incinerator turns off and you look inside the incinerator, Inside there was a key in the shape of wings. When you looked up the ghost was gone " << endl;
+					cout << " You took the Wing Key and know it's for the gate entrance " << endl;
+					Items[4] = "Wing Key";
+				}
+				else
+					Health -= 100;
+			}
 
 			if (input.compare("go east") == 0) {
 				room = 8;
 				turns -= 1;
 			}
-			if (input.compare("pick up") == 0)
-				Items[0] = " Wing key ";
 			else if (input == "inventory" || input == "Inventory") {
-				cout << "Entering imventory. " << endl;
+				cout << "Entering inventory. " << endl;
 			}
 			else
 				cout << "You can't go there " << endl;
 			break;
 		case 10:
 			cout << " You exited the gate, the only way foward is the forest. you dicide that you are not going to go back to the church. " << endl;
+			getline(cin, input);
+			if (input.compare("go north"))
+				room = 11;
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
+			}
 
 		}
 
 
-	} while (input != "q" && turns > 0);
+	} while (input != "q" && turns > 0 && Health > 0);
 
 	if (turns <= 0) {
 		cout << " You fell to the ground unable to bear the hunger. You weren't able to escape and you died " << endl;
+	}
+	else if (Health <= 0) {
+		cout << " The insinarador exploded and you were burned badly. The ghost then says 'Now I won't be lonely anymore.' you died. " << endl;
 	}
 
 }
