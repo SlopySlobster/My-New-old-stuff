@@ -6,8 +6,10 @@ using namespace std;
 //global variables (Usualy bad)
 
 string Items[5];
-int turns = 15;
+string Person[3];
+int turns = 20;
 int Health = 1;
+
 
 
 int main() {
@@ -18,6 +20,7 @@ int main() {
 
 	string input;
 	bool inroom = false;
+	bool gotpotato = false;
 	string invent = input;
 	cout << " You wake up in a cofen in a huge church. You see the doors open and you see a silhouette behind a closed gate in the distance walking away, you have to get out! " << endl << endl;
 	cout << " As you get up you start feeling very hungry. You better get out quicly before you starve " << endl;
@@ -30,7 +33,7 @@ int main() {
 				cout << Items[i] << endl;
 		switch (room) {
 		case 1:
-			cout << " You look around the church. it's dusty, like it's abandoned for years. The benches are very worn down and look like they will break if you try to sit on them. seems like the only way out is to the north. " << endl;
+			cout << " You look around the church. it's dusty like it's abandoned for years. The benches are very worn down and look like they will break if you try to sit on them. seems like the only way out is to the north. " << endl;
 			getline(cin, input);
 			if (input.compare("go north") == 0) {
 				room = 2;
@@ -39,16 +42,20 @@ int main() {
 			else if (input == "inventory" || input == "Inventory") {
 				cout << "Entering inventory." << endl;
 			}
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
+			}
 			else
 				cout << "You can't go there " << endl;
 			break;
 		case 2:
 			if (inroom == true) {
-				cout << " You are back at the entrance of the church with the gate. You can go to the east or west paths. " << endl;
+				cout << " You are back at the entrance of the church with the gate. You can go to the east or west paths. If you have the key to exit the church go north " << endl;
 				inroom = true;
 			}
 			else if (inroom == false) {
-				cout << " You go through the doors. The church seems to have a graveyard, you see a huge gate in front preventing you from escaping the graveyard. While you were watching the area the church door's close and lock themselves.There are some paths on you east and west " << endl;
+				cout << " You go through the doors. The church seems to have a graveyard, you see a huge gate in front preventing you from escaping the graveyard. While you were watching the area the church doors close and locked themselves. There are some paths on your east and west " << endl;
 				inroom = true;
 			}
 			getline(cin, input);
@@ -60,8 +67,21 @@ int main() {
 				room = 5;
 				turns -= 1;
 			}
+			if (input.compare("go north") == 0) {
+				if (Items[4].compare("Wing Key") != 0) {
+					cout << " The gate is very tall and sturdy, it looks like you need a special key " << endl;
+				}
+				else {
+					room = 10;
+					turns -= 1;
+				}
+			}
 			else if (input == "inventory" || input == "Inventory") {
 				cout << "Entering inventory." << endl;
+			}
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -80,11 +100,21 @@ int main() {
 			else if (input == "inventory" || input == "Inventory") {
 				cout << "Entering inventory." << endl;
 			}
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
+			}
 			else
 				cout << "You can't go there " << endl;
 			break;
 		case 4:
-			cout << " There is a huge pile of rubble in the middle of the road preventing you from continuing. You can go back north " << endl;
+			if (Items[0].compare("rusty key") == 0) {
+				cout << " There is a huge pile of rubble in the middle of the road preventing you from continuing. You can go back north " << endl;
+			}
+			else if (Items[0].compare("rusty key") != 0) {
+				cout << "A side of the chuch seems to have colapse and a huge pile of rubble in the way. You see that there is a small rusty key that says 'side gate' " << endl;
+			}
+
 			getline(cin, input);
 			if (input.compare("go north") == 0) {
 				room = 3;
@@ -94,6 +124,10 @@ int main() {
 				Items[0] = "rusty key";
 			else if (input == "inventory" || input == "Inventory") {
 				cout << "Entering inventory." << endl;
+			}
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -111,6 +145,10 @@ int main() {
 			}
 			else if (input == "inventory" || input == "Inventory") {
 				cout << "Entering inventory." << endl;
+			}
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -134,6 +172,10 @@ int main() {
 			else if (input == "inventory" || input == "Inventory") {
 				cout << "Entering inventory." << endl;
 			}
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
+			}
 			else
 				cout << "You can't go there" << endl;
 			break;
@@ -141,14 +183,17 @@ int main() {
 			cout << " This side of the gate had a small garden. You see that most of the plants are dead and spoiled but you notice that a small potato is still edible. You can go back north or go west. " << endl;
 			getline(cin, input);
 
-			if (input.compare("go north") == 0) {
-				room = 6;
-				turns -= 1;
+
+			if (gotpotato == false) {
+				if (input.compare("pick up") == 0)
+					Items[1] = "potato";
+				gotpotato = true;
 			}
 
 
-			else if (input.compare("pick up") == 0) {
-				Items[1] = "potato";
+			if (input.compare("go north") == 0) {
+				room = 6;
+				turns -= 1;
 			}
 
 
@@ -158,6 +203,10 @@ int main() {
 			}
 			else if (input == "inventory" || input == "Inventory") {
 				cout << "Entering inventory." << endl;
+			}
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
 			}
 			else
 				cout << "You can't go there " << endl;
@@ -176,18 +225,23 @@ int main() {
 			else if (input == "inventory" || input == "Inventory") {
 				cout << "Entering inventory." << endl;
 			}
+			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
+				turns += 5;
+				Items[1] = "";
+			}
 			else
 				cout << "You can't go there " << endl;
 			break;
 		case 9:
-			cout << " You see that there is an incinerator that is turned on. Suddenly a ghost apears! " << endl;
-			cout << " He says ' You wish to get out of this place before ending like me... very well. I will give you the key out of here' " << endl;
-			cout << " 'But I feel a bit lonely and bored so You'll have to answer something first. If you answer me incorrect; this incinerator will seal you fate' " << endl;
-			cout << " 'My question is: What side of the grave is younger? The west or east?' " << endl;
+			if (Items[4].compare("Wing Key") != 0) {
+				cout << " You see that there is an incinerator that is turned on. Suddenly a ghost apears! " << endl;
+				cout << " He says ' You wish to get out of this place before ending like me... very well. I will give you the key out of here' " << endl;
+				cout << " 'But I feel a bit lonely and bored so You'll have to answer something first. If you answer me incorrect; this incinerator will seal your fate' " << endl;
+				cout << " 'My question is: What side of the grave is younger? The west or east?' " << endl;
+	
 
-			if (Items[4].compare("Wing Key") == 0) {
-				cin >> input;
-				if (input.compare("East") || ("east") || ("east side") || ("East side")) {
+				getline(cin, input);
+				if (input.compare("East") == 0 || input.compare("east") == 0 || input.compare("east side") == 0 || input.compare("East side") == 0) {
 					cout << " 'Correct' says the ghost, then the incinerator turns off and you look inside the incinerator, Inside there was a key in the shape of wings. When you looked up the ghost was gone " << endl;
 					cout << " You took the Wing Key and know it's for the gate entrance " << endl;
 					Items[4] = "Wing Key";
@@ -195,7 +249,10 @@ int main() {
 				else
 					Health -= 100;
 			}
-
+			else if (Items[4].compare("Wing Key") == 0)
+				cout << "There is no reason to be here. You can go east. " << endl;
+			
+			getline(cin, input);
 			if (input.compare("go east") == 0) {
 				room = 8;
 				turns -= 1;
@@ -209,14 +266,24 @@ int main() {
 		case 10:
 			cout << " You exited the gate, the only way foward is the forest. you dicide that you are not going to go back to the church. " << endl;
 			getline(cin, input);
-			if (input.compare("go north"))
+			if (input.compare("go north") == 0)
 				room = 11;
 			if (Items[1].compare("potato") == 0 && input.compare("eat potato") == 0) {
 				turns += 5;
 				Items[1] = "";
 			}
-
-		}
+			else if (input == "inventory" || input == "Inventory") {
+				cout << "Entering inventory. " << endl;
+			}
+			else
+				cout << "You can't go there " << endl;
+			break;
+		case 11:
+			cout << "While you were going thorue the woods the old man suddenly stops you!" << endl;
+			cout << "He say'Don't wory, I won't kill you. I see you are not a worty decoration in this place. Now go away' You then ran away and escaped the forest. " << endl;
+			input = "q";
+			break;
+		}//end switch
 
 
 	} while (input != "q" && turns > 0 && Health > 0);
@@ -225,7 +292,14 @@ int main() {
 		cout << " You fell to the ground unable to bear the hunger. You weren't able to escape and you died " << endl;
 	}
 	else if (Health <= 0) {
-		cout << " The insinarador exploded and you were burned badly. The ghost then says 'Now I won't be lonely anymore.' you died. " << endl;
+		cout << " The incinerator exploded and you were burned badly. The ghost then says 'Now I won't be lonely anymore.' you died. " << endl;
 	}
 
+}
+
+
+void NPC(int x) {
+	string Person[3];
+
+	
 }
