@@ -1,0 +1,39 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+
+int main() {
+
+	string input;
+
+	vector<string> name;
+	vector<string>::iterator namei;
+
+	do {
+		cout << " Enter a name or enter q to quit " << endl;
+		cin >> input;
+
+		if (input != "q")
+		name.push_back(input);
+
+
+	} while ( input != "q");
+
+	cout << " Here are your names sorted "  << endl;
+	sort(name.begin(), name.end());
+
+	for (namei = name.begin(); namei != name.end(); ++namei)
+		cout << *namei << " ";
+
+
+	cout << " HA HA JK. Im going to scramble them!!! " << endl;
+
+	random_shuffle(name.begin(), name.end());
+
+	cout << endl << endl;
+	for (namei = name.begin(); namei != name.end(); ++namei)
+		cout << *namei << " ";
+
+}
