@@ -19,13 +19,13 @@ int main() {
 	cout << "Press space to begin." << endl;
 	cin >> input;
 	
-	do{
+	do {
 		cin >> input;
-		if (input == 'a')
+		if (input == ' ')
 			score += 1;
 
-	} while ((timer(delay)) > 0); //Help by kevin
-
+	} while (timer(delay)); //Help by kevin
+	
 	score += 1;
 
 	cout << "Your score is " << score << "." << endl;
@@ -40,6 +40,9 @@ int timer(int delay) {
 
 	while (clock() - now < delay);
 
-	return;
+	if (clock > 0)
+		return 1;
+	else
+		return 0;
 	
 }
