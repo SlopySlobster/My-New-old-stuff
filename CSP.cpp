@@ -1,48 +1,70 @@
-#include<iostream>
-#include<cstdio> //got this from linuxhint.com
-#include<ctime> //got this from linuxhint.com
+#include <iostream>
+#include <algorithm>
+
 using namespace std;
 
-int timer(int delay);
-
-
-int main() {
-
-	char input;
-	int delay = 5;//got this from linuxhint.com
-	
+int main(){
+	int dates[] = { 1776, 1922, 1792, 1804, 1809, 1870, 1821 };
 	int score = 0;
+	int input;
 
-	cout << "Hello, welcome to the button presser test." << endl;
-	cout << "This test will have you press the space button as many times as possible for five seconds." << endl;
-	cout << "After five seconds, I will tell you how many times you pressed the button. " << endl;
-	cout << "Press space to begin." << endl;
+	cout << "Welcome to the country founder quiz. " << endl;
+	cout << "I will ask you what time a country was founded and you have to type the year it was founded." << endl;
+	cout << "Only input the year of when the country was founded. Do not put the month/day." << endl;
+
+	cout << "First question: When was the United States of America founded?" << endl;
 	cin >> input;
-	
-	do {
-		cin >> input;
-		if (input == ' ')
-			score += 1;
-
-	} while (timer(delay)); //Help by kevin
-	
-	score += 1;
-
-	cout << "Your score is " << score << "." << endl;
-
-}
-
-int timer(int delay) {
-
-	delay *= CLOCKS_PER_SEC;
-
-	clock_t now = clock();
-
-	while (clock() - now < delay);
-
-	if (clock > 0)
-		return 1;
+	if (input == dates[0]) { //help by Kevin
+		cout << "Correct" << endl;
+		score += 1;
+	}
 	else
-		return 0;
-	
+		cout << "Incorrect, The answer is 1776" << endl;
+
+	cout << "Second question: When was the United Kingdom founded?" << endl;
+	cin >> input;
+	if (input == dates[1]) { //help by Kevin
+		cout << "Correct" << endl;
+		score += 1;
+	}
+	else
+		cout << "Incorrect, The answer is 1922" << endl;
+
+	cout << "Third question: When was the First French Republic founded?" << endl;
+	cin >> input;
+	if (input == dates[2]) { //help by Kevin
+		cout << "Correct" << endl;
+		score += 1;
+	}
+	else
+		cout << "Incorrect, The answer is 1792" << endl;
+
+	cout << "Fourth question: When was the First French Empire founded?" << endl;
+	cin >> input;
+	if (input == dates[3] || input == dates[4]) { //help by Kevin
+		cout << "Correct" << endl;
+		score += 1;
+	}
+	else
+		cout << "Incorrect, The answer is 1804 or 1809" << endl;
+
+	cout << "Fifth question: When was the Third French Republic founded?" << endl;
+	cin >> input;
+	if (input == dates[5]) { //help by Kevin
+		cout << "Correct" << endl;
+		score += 1;
+	}
+	else
+		cout << "Incorrect, The answer is 1870" << endl;
+
+	cout << "Sixth question: When was Mexico founded?" << endl;
+	cin >> input;
+	if (input == dates[6]) { //help by Kevin
+		cout << "Correct" << endl;
+		score += 1;
+	}
+	else
+		cout << "Incorrect, The answer is 1821" << endl;
+
+	cout << "The quiz has finished. Your score is " << score << " out of 6" << endl;
 }
