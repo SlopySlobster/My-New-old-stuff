@@ -93,17 +93,7 @@ while not gameover: #GAME LOOP##################################################
 
     
     #COLLISION
-    if xpos>100 and xpos<200 and ypos+40 >750 and ypos+40 <770:
-        ypos = 750-40
-        isOnGround = True
-        vy = 0
-    elif xpos>200 and xpos<300 and ypos+40 >650 and ypos+40 <670:
-        ypos = 650-40
-        isOnGround = True
-        vy = 0
-    else:
-        isOnGround = False
-    isOnGround = False
+
     if p1.collide(xpos, ypos) != False:
         isOnGround = True
         vy = 0
@@ -124,7 +114,8 @@ while not gameover: #GAME LOOP##################################################
         isOnGround = True
         vy = 0
         ypos = p5.ypos-40
-
+    else:
+        isOnGround = False
 
     
     #stop falling if on bottom of game screen
@@ -148,13 +139,7 @@ while not gameover: #GAME LOOP##################################################
     screen.fill((0,0,0)) #wipe screen so it doesn't smear
   
     pygame.draw.rect(screen, (100, 200, 100), (xpos, ypos, 20, 40))
-    
-    #first platform
-    pygame.draw.rect(screen, (200, 0, 100), (100, 750, 100, 20))
-    
-    #second platform
-    pygame.draw.rect(screen, (100, 0, 200), (200, 650, 100, 20))
-    
+
     p1.draw()
     
     p2.draw()
