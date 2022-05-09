@@ -27,7 +27,7 @@ class Platform:
             
     def collide (self, x ,y):
     
-          if  x>self.xpos and x<self.xpos+100 and y+40> self.ypos and y+40 < self.ypos+20:
+          if  x>self.xpos-20 and x<self.xpos+100 and y+40> self.ypos and y+40 < self.ypos+20:
               return True
           else:
             return False
