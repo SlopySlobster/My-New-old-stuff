@@ -1,10 +1,9 @@
 import pygame
 import random
-#import myFunctions
 
 pygame.init()
 pygame.display.set_caption("bruh") 
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((700, 500))
 clock = pygame.time.Clock()
 
 doExit = False
@@ -12,7 +11,6 @@ doExit = False
 cheems = pygame.image.load ("Fish Fryer 2 electic bogalloo.png")
 cheesy = cheems.get_rect(topleft = (0,0))
 
-#myFunctions.PlayIntro()
 class fish:
   def __init__(self):
     self.xpos = random.randrange(0, 700)
@@ -20,9 +18,9 @@ class fish:
     self.xvel = random.randrange(-3, 3)
     self.yvel = random.randrange(-3, 3)
     self.ticker = random.randrange(0, 100)
-    self.red = random.randrange(0, 100)
-    self.green = random.randrange(100, 250)
-    self.blue = random.randrange(50, 200)
+    self.red = random.randrange(0, 255)
+    self.green = random.randrange(0, 255)
+    self.blue = random.randrange(0, 255)
     self.isdead = False
     self.onhook = False
 
@@ -45,11 +43,11 @@ class fish:
     if self.xpos < 0:
       self.xpos = 0
       self.xvel *=-1
-    if self.ypos < 100:
-      self.ypos = 100
+    if self.ypos < 0:
+      self.ypos = 0
       self.yvel *= -1
-    if self.ypos > 500:
-      self.ypos = 500
+    if self.ypos > 480:
+      self.ypos = 480
       self.yvel *= -1
     self.ticker +=1
     if self.ticker > 100:
@@ -67,7 +65,7 @@ class fish:
 #f3 = fish()
 lefesh = list()
 
-fisham = 5 # fish ammount
+fisham = int(input("ENTER fish ammount")) # fish ammount
 
 for i in range (fisham):
   lefesh.append(fish())
@@ -89,6 +87,7 @@ while not doExit:
     for i in range(fisham):
      lefesh[i].move()
 
+    screen.fill((0,0,0))
     screen.blit(cheems, cheesy)
 
     #f1.draw()
