@@ -3,7 +3,7 @@ import pygame
 
 pygame.init()#set up pygame
 pygame.display.set_caption("Space Invaders!")
-screen = pygame.display.set_mode((800, 800))
+screen = pygame.display.set_mode((1225, 800))
 clock = pygame.time.Clock() #set up clock
 gameover = False #variable to run our game loop
 
@@ -14,22 +14,66 @@ ypos = 750
 moveLeft = False
 moveRight = False
 
+
+#game variables
+timer = 0;
+
+class Bullet:
+    def __init__(self, xpos, ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.isAlive = False
+
+    def move(self, xpos, ypos):
+        if self.isAlive == True: # only shoot live bullets
+            self.ypos-=5 #move up when shot
+        if self.ypos < 0: #check if you've hit the top of the screen
+            self.isAlive = False #set to dead
+            self.xpos = xpos #reset to player position
+            self.ypos = ypos
+
+    def draw(self):
+        pygame.draw.rect(screen, (250, 250, 250), (self.xpos, self.ypos, 3, 20))
+
+#instantiate bullet object
+bullet = Bullet(xpos+28, ypos)#create bullet object and pass player position
+
+
+
 class Alien:
     def __init__(self, xpos, ypos):
         self.xpos = xpos
         self.ypos = ypos
         self.isAlive = True
+        self.direction = 1
+
     def draw(self):
         pygame.draw.rect(screen, (0, 250, 0), (self.xpos, self.ypos, 40, 40))
+
+
+    def move(self, time):
+
+        #reset what direction you're moving every 8 moves:
+        if time % 400 == 0:
+            self.ypos += 100 #move down
+            self.direction *=-1 #flip direction
+            return 0 #resets timer to 0
+
+        #move every time the timer increases by 100:
+        if time % 100 == 0:
+            self.xpos+=50*self.direction #move right
+
+        return time #doesn't reset if first if statement hasn't executed
 
 armada = [] #creates empt list
 for i in range (4): #handles rows
     for j in range(9): #handles columns
-        armada.append(Alien(j*75+75, i*75+75))
+        armada.append(Alien(j*75+275, i*75+75))
 
 
 while not gameover:
     clock.tick(60)
+    timer +=1
 
     # Input Section-----------------------------
 
@@ -54,6 +98,9 @@ while not gameover:
 
     # checks variables from the input section
 
+    for i in range (len(armada)):
+        timer = armada[i].move(timer)
+
     # Left movement
     if moveLeft == True:
         vx =-3
@@ -64,6 +111,18 @@ while not gameover:
 
     else:
         vx = 0
+
+
+    #shoot bullet
+    if shoot == True: #check keyboard input
+        bullet.isAlive = True
+
+    if bullet.isAlive == True:
+        bullet.move(xpos+28, ypos) #shoot from player position
+
+    else: #make bullet follow player when not moving up
+        bullet.xpos = xpos + 28
+        bullet.ypos = ypos
 
     #updates player's position
 
