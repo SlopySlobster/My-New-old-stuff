@@ -13,6 +13,7 @@ xpos = 400
 ypos = 750
 moveLeft = False
 moveRight = False
+shoot = False
 
 
 #game variables
@@ -25,6 +26,7 @@ class Bullet:
         self.isAlive = False
 
     def move(self, xpos, ypos):
+        print(self.xpos, self.ypos)
         if self.isAlive == True: # only shoot live bullets
             self.ypos-=5 #move up when shot
         if self.ypos < 0: #check if you've hit the top of the screen
@@ -33,7 +35,9 @@ class Bullet:
             self.ypos = ypos
 
     def draw(self):
-        pygame.draw.rect(screen, (250, 250, 250), (self.xpos, self.ypos, 3, 20))
+        if self.isAlive == True:
+            pygame.draw.rect(screen, (250, 250, 250), (self.xpos, self.ypos-20, 4, 10))
+
 
 #instantiate bullet object
 bullet = Bullet(xpos+28, ypos)#create bullet object and pass player position
@@ -86,13 +90,16 @@ while not gameover:
                 moveLeft = True
             if event.key == pygame.K_RIGHT:
                 moveRight = True
+            if event.key == pygame.K_SPACE:
+                shoot = True
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 moveLeft = False
             if event.key == pygame.K_RIGHT:
                 moveRight = False
-
+            if event.key == pygame.K_SPACE:
+                shoot = False
        
     # Physics section---------------------------
 
@@ -140,6 +147,11 @@ while not gameover:
     #Allen
     for i in range (len(armada)):
         armada[i].draw()
+
+    #Bullet
+    bullet.move(xpos+28, ypos-18)
+    bullet.draw()
+
 
     pygame.display.flip()#Flips buffer (memory) where sruff has been "drawn" to the actual screen
 
