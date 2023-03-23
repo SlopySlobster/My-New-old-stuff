@@ -26,7 +26,6 @@ class Bullet:
         self.isAlive = False
 
     def move(self, xpos, ypos):
-        print(self.xpos, self.ypos)
         if self.isAlive == True: # only shoot live bullets
             self.ypos-=5 #move up when shot
         if self.ypos < 0: #check if you've hit the top of the screen
@@ -52,7 +51,8 @@ class Alien:
         self.direction = 1
 
     def draw(self):
-        pygame.draw.rect(screen, (0, 250, 0), (self.xpos, self.ypos, 40, 40))
+        if self.isAlive == True:
+            pygame.draw.rect(screen, (0, 250, 0), (self.xpos, self.ypos, 40, 40))
 
 
     def move(self, time):
@@ -69,17 +69,62 @@ class Alien:
 
         return time #doesn't reset if first if statement hasn't executed
 
-armada = [] #creates empt list
+    def collide(self, BulletX, BulletY):
+        if self.isAlive: #only hit live aliens
+            if BulletX > self.xpos: #check if bullet is right of th left side of the alien
+                if BulletX < self.xpos + 40: #check if the bullet is left of the right side
+                    if BulletY < self.ypos + 40: #check if the bullet is left of the right side
+                        if BulletY > self.ypos: #check if the bullet is below the top of the alien
+                            print("hit!") #for testing
+                            self.isAlive = False #set the alien to dead
+                            return False #set the BULLET to dead
+        return True #otherwise keep bullet alive
+
+
+class Wall:
+    def __init__(self, xpos, ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.numHits = 0
+        #print("In constructor, numHits is", self.numHits)
+
+    def draw(self):
+        print("inside draw, numHits is", self.numHits)
+        if self.numHits == 0:
+            pygame.draw.rect(screen, (0, 250, 0), (self.xpos, self.ypos, 100, 60))
+        elif self.numHits == 1:
+            pygame.draw.rect(screen, (0, 150, 0), (self.xpos, self.ypos, 100, 60))
+        elif self.numHits == 2:
+            pygame.draw.rect(screen, (0, 50, 0), (self.xpos, self.ypos, 100, 60))
+
+    def collide(self, BulletX, BulletY):
+        if self.numHits < 3: #only hit if wall has less thant three hits
+            if BulletX > self.xpos: #check if bullet is right of th left side of the wall
+                if BulletX < self.xpos + 40: #check if the bullet is left of the right side
+                    if BulletY < self.ypos + 40: #check if the bullet is left of the right side
+                        if BulletY > self.ypos: #check if the bullet is below the top of the wall
+                            print("hit!") #for testing
+                            self.numHits+=1 #add hit to wall
+                            return False #set the BULLET to dead
+        return True #otherwise keep bullet alive
+
+
+armada = [] #creates empty list
 for i in range (4): #handles rows
     for j in range(9): #handles columns
         armada.append(Alien(j*75+275, i*75+75))
+walls = [] #creates empty list
+for k in range (4): #creates 4 sets
+    for i in range (2): #handles rows
+        for j in range (3): #handles columns
+            walls.append(Wall(j*30+300*k+55, i*30+550)) #push wall objects ino list
 
 
 while not gameover:
     clock.tick(60)
     timer +=1
 
-    # Input Section-----------------------------
+    # Input Section-----------------------------------------------------------------------------------------------------
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -101,7 +146,8 @@ while not gameover:
             if event.key == pygame.K_SPACE:
                 shoot = False
        
-    # Physics section---------------------------
+    # Physics section--------------------------------------------------------------------------------------------------
+
 
     # checks variables from the input section
 
@@ -126,23 +172,51 @@ while not gameover:
 
     if bullet.isAlive == True:
         bullet.move(xpos+28, ypos) #shoot from player position
+        if bullet.isAlive == True:
+        #check for collision between bullet and enemy
+            for i in range (len(armada)): #check bullet with entire armada's positions
+                bullet.isAlive = armada[i].collide(bullet.xpos, bullet.ypos) #if we hit, set bullet to false
+                if bullet.isAlive == False:
+                    break
+
+        #shoot walls
+
+        if bullet.isAlive == True:
+        #check for collision between bullet and enemy
+            for i in range (len(walls)): #check bullet with entire list of wall positions
+                bullet.isAlive = walls[i].collide(bullet.xpos, bullet.ypos) #if we hit, set bullet fo false
+                if bullet.isAlive == False:
+                    break
+
 
     else: #make bullet follow player when not moving up
         bullet.xpos = xpos + 28
-        bullet.ypos = ypos
+        bullet.ypos = ypos - 18
+
+    #Alien collision call
+    for i in range (len(armada)):
+        armada[i].collide(bullet.xpos, bullet.ypos)
+
+    #Wall collision call
+    for i in range (len(walls)):
+        walls[i].collide(bullet.xpos, bullet.ypos)
 
     #updates player's position
 
     xpos += vx
-    
-    #Render section-----------------------------
+   
+    #Render section--------------------------------------------------------------------------------------------------------
 
     screen.fill((0,0,0)) # Wipes the screen so it doesn't smear
     #Player
-    pygame.draw.rect(screen, (0, 200, 0), (xpos, ypos, 60, 20)) #Draws player
-    pygame.draw.rect(screen, (0, 200, 0), (xpos+5, ypos-5, 50, 5)) #Draws player
-    pygame.draw.rect(screen, (0, 200, 0), (xpos+25, ypos-15, 10, 10)) #Draws player
-    pygame.draw.rect(screen, (0, 200, 0), (xpos+28, ypos-20, 4, 5)) #Draws player
+    pygame.draw.rect(screen, (0, 250, 0), (xpos, ypos, 60, 20)) #Draws player
+    pygame.draw.rect(screen, (0, 250, 0), (xpos+5, ypos-5, 50, 5)) #Draws player
+    pygame.draw.rect(screen, (0, 250, 0), (xpos+25, ypos-15, 10, 10)) #Draws player
+    pygame.draw.rect(screen, (0, 250, 0), (xpos+28, ypos-20, 4, 5)) #Draws player
+
+    #Wall
+    for i in range (len(walls)):
+        walls[i].draw()
 
     #Allen
     for i in range (len(armada)):
