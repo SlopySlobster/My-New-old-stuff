@@ -44,9 +44,9 @@ bullet = Bullet(xpos+28, ypos)#create bullet object and pass player position
 
 class Missile:
     def __init__(self):
-        xpos = -20
-        ypos = -20
-        isAlive = False 
+        self.xpos = -20
+        self.ypos = -20
+        self.isAlive = False 
 
     def move(self, xpos, ypos):
         if self.isAlive == True: # only shoot live bullets
@@ -61,8 +61,7 @@ class Missile:
             pygame.draw.rect(screen, (250, 250, 250), (self.xpos, self.ypos-20, 4, 10))
 
 #instantiate missile object
-missile = Missile(xpos, ypos)
-
+missile = Missile()
 
 class Alien:
     def __init__(self, xpos, ypos):
@@ -110,7 +109,6 @@ class Wall:
         #print("In constructor, numHits is", self.numHits)
 
     def draw(self):
-        print("inside draw, numHits is", self.numHits)
         if self.numHits == 0:
             pygame.draw.rect(screen, (0, 250, 0), (self.xpos, self.ypos, 150, 100))
         elif self.numHits == 1:
@@ -139,6 +137,9 @@ for k in range (4): #creates 4 sets
     for i in range (1): #handles rows
         for j in range (1): #handles columns
             walls.append(Wall(j*30+300*k+80, i*30+550)) #push wall objects ino list
+missiles = []
+for i in range (10):
+    missiles.append(Missile(30+300*)
 
 
 while not gameover:
