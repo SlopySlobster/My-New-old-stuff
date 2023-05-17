@@ -17,7 +17,7 @@ shoot = False
 
 
 #game variables
-timer = 0;
+timer = 0
 
 class Bullet:
     def __init__(self, xpos, ypos):
@@ -41,6 +41,27 @@ class Bullet:
 #instantiate bullet object
 bullet = Bullet(xpos+28, ypos)#create bullet object and pass player position
 
+
+class Missile:
+    def __init__(self):
+        xpos = -20
+        ypos = -20
+        isAlive = False 
+
+    def move(self, xpos, ypos):
+        if self.isAlive == True: # only shoot live bullets
+            self.ypos+=5 #move down when shot
+        if self.ypos > 800: #check if you've hit the top of the screen
+            self.isAlive = False #set to dead
+            self.xpos = xpos #reset to player position
+            self.ypos = ypos
+
+    def draw(self):
+        if self.isAlive == True:
+            pygame.draw.rect(screen, (250, 250, 250), (self.xpos, self.ypos-20, 4, 10))
+
+#instantiate missile object
+missile = Missile(xpos, ypos)
 
 
 class Alien:
@@ -91,17 +112,17 @@ class Wall:
     def draw(self):
         print("inside draw, numHits is", self.numHits)
         if self.numHits == 0:
-            pygame.draw.rect(screen, (0, 250, 0), (self.xpos, self.ypos, 100, 60))
+            pygame.draw.rect(screen, (0, 250, 0), (self.xpos, self.ypos, 150, 100))
         elif self.numHits == 1:
-            pygame.draw.rect(screen, (0, 150, 0), (self.xpos, self.ypos, 100, 60))
+            pygame.draw.rect(screen, (0, 150, 0), (self.xpos, self.ypos, 150, 100))
         elif self.numHits == 2:
-            pygame.draw.rect(screen, (0, 50, 0), (self.xpos, self.ypos, 100, 60))
+            pygame.draw.rect(screen, (0, 50, 0), (self.xpos, self.ypos, 150, 100))
 
     def collide(self, BulletX, BulletY):
         if self.numHits < 3: #only hit if wall has less thant three hits
             if BulletX > self.xpos: #check if bullet is right of th left side of the wall
-                if BulletX < self.xpos + 40: #check if the bullet is left of the right side
-                    if BulletY < self.ypos + 40: #check if the bullet is left of the right side
+                if BulletX < self.xpos + 150: #check if the bullet is left of the right side
+                    if BulletY < self.ypos + 100: #check if the bullet is left of the right side
                         if BulletY > self.ypos: #check if the bullet is below the top of the wall
                             print("hit!") #for testing
                             self.numHits+=1 #add hit to wall
@@ -115,9 +136,9 @@ for i in range (4): #handles rows
         armada.append(Alien(j*75+275, i*75+75))
 walls = [] #creates empty list
 for k in range (4): #creates 4 sets
-    for i in range (2): #handles rows
-        for j in range (3): #handles columns
-            walls.append(Wall(j*30+300*k+55, i*30+550)) #push wall objects ino list
+    for i in range (1): #handles rows
+        for j in range (1): #handles columns
+            walls.append(Wall(j*30+300*k+80, i*30+550)) #push wall objects ino list
 
 
 while not gameover:
@@ -226,6 +247,9 @@ while not gameover:
     bullet.move(xpos+28, ypos-18)
     bullet.draw()
 
+    #Missile
+    missile.move(xpos, ypos-18)
+    missile.draw()
 
     pygame.display.flip()#Flips buffer (memory) where sruff has been "drawn" to the actual screen
 
