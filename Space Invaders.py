@@ -1,4 +1,5 @@
 import pygame
+import random
 
 
 pygame.init()#set up pygame
@@ -63,6 +64,7 @@ class Missile:
 #instantiate missile object
 missile = Missile()
 
+
 class Alien:
     def __init__(self, xpos, ypos):
         self.xpos = xpos
@@ -109,6 +111,7 @@ class Wall:
         #print("In constructor, numHits is", self.numHits)
 
     def draw(self):
+        print("inside draw, numHits is", self.numHits)
         if self.numHits == 0:
             pygame.draw.rect(screen, (0, 250, 0), (self.xpos, self.ypos, 150, 100))
         elif self.numHits == 1:
@@ -139,8 +142,7 @@ for k in range (4): #creates 4 sets
             walls.append(Wall(j*30+300*k+80, i*30+550)) #push wall objects ino list
 missiles = []
 for i in range (10):
-    missiles.append(Missile(30+300*)
-
+    missiles.append(Missile())
 
 while not gameover:
     clock.tick(60)
@@ -200,9 +202,23 @@ while not gameover:
                 bullet.isAlive = armada[i].collide(bullet.xpos, bullet.ypos) #if we hit, set bullet to false
                 if bullet.isAlive == False:
                     break
+    
+    #picks a random number
+    fire = random.randrange(100)
+
+    #shoot missile
+    if fire % 100 <=2:
+        pick = random.randrange(len(armada))#picks a random alien to fire
+        if armada[pick].isAlive == True: #checks if the alien picked is alive
+            for i in range(len(missiles)): #finds the first live missile
+                if missiles[i].isAlive == False: #will only fire if the alien is not alredy
+                    missiles[i].isAlive = True #fires the missile
+                    missiles[i].xpos = armada[pick].xpos+5 #draws the missile
+                    missiles[i].ypos = armada[pick].ypos
+                    break
+
 
         #shoot walls
-
         if bullet.isAlive == True:
         #check for collision between bullet and enemy
             for i in range (len(walls)): #check bullet with entire list of wall positions
@@ -249,8 +265,8 @@ while not gameover:
     bullet.draw()
 
     #Missile
-    missile.move(xpos, ypos-18)
-    missile.draw()
+    missiles.move()
+    missiles.draw()
 
     pygame.display.flip()#Flips buffer (memory) where sruff has been "drawn" to the actual screen
 
