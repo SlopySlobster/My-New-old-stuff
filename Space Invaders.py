@@ -265,8 +265,10 @@ while not gameover:
     bullet.draw()
 
     #Missile
-    missiles.move()
-    missiles.draw()
+    for i in range (len(missiles)):
+        missile.move(xpos,ypos)
+    for i in range (len(missiles)):
+        missile.draw()
 
     pygame.display.flip()#Flips buffer (memory) where sruff has been "drawn" to the actual screen
 
